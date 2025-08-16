@@ -1,11 +1,8 @@
 export default {
-  options: {
-    alias: 'routes' // task names look like: routes:list, routes:dump
-  },
-
+  extend: '@apostrophecms/module',
   tasks(self) {
     return {
-      list: {
+      'list-routes': {
         usage: 'List all Express routes currently registered (table output)',
         options: {
           include: 'Comma-separated prefixes or regexes (e.g., /api,/^\\/@apostrophecms\\/)',
@@ -40,7 +37,7 @@ export default {
         }
       },
 
-      dump: {
+      'dump-routes': {
         usage: 'Dump all Express routes as JSON (use --output=routes.json to save)',
         options: {
           include: 'Comma-separated prefixes or regexes',
@@ -81,7 +78,7 @@ export default {
       }
     };
 
-    // ===== helpers (module-local; no external dependency) =====
+    // ===== helpers =====
     function parseFilters(csv) {
       if (!csv) return [];
       return String(csv)

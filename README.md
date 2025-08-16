@@ -37,44 +37,55 @@ export default{
 Display all routes in a formatted table:
 
 ```bash
-node app routes:list
+node app @bodonkey/apostrophecms-route-lister:list-routes
 ```
 
 #### Filtering Options
 
+### String Patterns
+- Simple string matching uses `startsWith()` logic
+- `/api` matches `/api/v1/users`, `/api/v1/pages`, etc.
+- `/customroute` matches `/customroute/xxx`, `/customroute/yyy`, etc.
+
+### Regex Patterns
+- Regex patterns must start with `/^` and end with `/` plus optional flags
+- `/^.*@apostrophecms.*/i` matches any route containing `@apostrophecms` (case-insensitive)
+- `/^\/api\/v[0-9]+/` matches `/api/v1`, `/api/v2`, etc.
+- `/^\/users\/[0-9]+$/` matches `/users/123` but not `/users/abc`
+
 **Include specific routes:**
 ```bash
 # Include only API routes
-node app routes:list --include=/api
+node app @bodonkey/apostrophecms-route-lister:list-routes --include=/api
 
 # Include multiple patterns
-node app routes:list --include=/api,/admin
+node app @bodonkey/apostrophecms-route-lister:list-routes --include=/api,/admin
 
 # Use regex patterns
-node app routes:list --include="/^\/api\/v[0-9]+/"
+node app @bodonkey/apostrophecms-route-lister:list-routes --include="/^\/api\/v[0-9]+/"
 ```
 
 **Exclude routes:**
 ```bash
-# Exclude ApostropheCMS internal routes
-node app routes:list --exclude=/@apostrophecms
+# Exclude routes containing @apostrophecms anywhere
+node app @bodonkey/apostrophecms-route-lister:list-routes --exclude="/^.*@apostrophecms.*/"
 
-# Exclude multiple patterns  
-node app routes:list --exclude=/assets,/@apostrophecms
+# Exclude multiple patterns (mix of prefix and regex)
+node app @bodonkey/apostrophecms-route-lister:list-routes --exclude=/@apostrophecms,"/^.*internal.*/"
 ```
 
 **Filter by HTTP methods:**
 ```bash
 # Show only GET routes
-node app routes:list --methods=GET
+node app @bodonkey/apostrophecms-route-lister:list-routes --methods=GET
 
 # Show GET and POST routes
-node app routes:list --methods=GET,POST
+node app @bodonkey/apostrophecms-route-lister:list-routes --methods=GET,POST
 ```
 
 **Combined filtering:**
 ```bash
-node app routes:list --include=/api --exclude=/api/internal --methods=GET,POST
+node app @bodonkey/apostrophecms-route-lister:list-routes --include=/api --exclude=/api/internal --methods=GET,POST
 ```
 
 ### Export Routes (JSON Format)
@@ -83,13 +94,13 @@ Export routes as JSON for automation or further processing:
 
 ```bash
 # Print to stdout
-node app routes:dump
+node app @bodonkey/apostrophecms-route-lister:dump-routes
 
 # Save to file
-node app routes:dump --output=routes.json
+node app @bodonkey/apostrophecms-route-lister:dump-routes --output=routes.json
 
 # With filtering
-node app routes:dump --include=/api --methods=GET,POST --output=api-routes.json
+node app @bodonkey/apostrophecms-route-lister:dump-routes --include=/api --methods=GET,POST --output=api-routes.json
 ```
 
 #### JSON Output Format
@@ -114,7 +125,7 @@ node app routes:dump --include=/api --methods=GET,POST --output=api-routes.json
 
 ### Basic Route Listing
 ```bash
-$ node app routes:list
+$ node app @bodonkey/apostrophecms-route-lister:list-routes
 
 METHOD  PATH
 ----------------
@@ -129,13 +140,13 @@ DELETE  /api/users/:id
 
 ### API Routes Only
 ```bash
-$ node app routes:list --include=/api --methods=GET
+$ node app @bodonkey/apostrophecms-route-lister:list-routes --include=/api --methods=GET
 
 METHOD  PATH
 ----------------
-GET     /api/pages
-GET     /api/users
-GET     /api/users/:id
+GET     /api/v1/pages
+GET     /api/v1/users
+GET     /api/v1/users/:id
 
 3 route(s).
 ```
@@ -143,7 +154,7 @@ GET     /api/users/:id
 ### Export for OpenAPI Generation
 ```bash
 # Export API routes for spec generation
-node app routes:dump --include=/api --output=api-routes.json
+node app @bodonkey/apostrophecms-route-lister:dump-routes --include=/api --output=api-routes.json
 
 ✅ Wrote 15 routes to api-routes.json
 ```
@@ -168,7 +179,7 @@ node app routes:dump --include=/api --output=api-routes.json
 ## Use Cases
 
 - **API Documentation** - Generate route lists for documentation
-- **OpenAPI Spec Generation** - Export routes as JSON for spec builders  
+- **OpenAPI Spec Generation** - Export routes as JSON for spec builders
 - **Debugging** - Identify route conflicts or unexpected registrations
 - **Security Audits** - Review all exposed endpoints
 - **Testing** - Validate route registration in CI/CD pipelines
@@ -176,7 +187,7 @@ node app routes:dump --include=/api --output=api-routes.json
 ## Requirements
 
 - ApostropheCMS 4.0.0 or higher
-- Node.js 16+ (for ES modules support)
+- Node.js 22+ (for ES modules support)
 
 ## Contributing
 
