@@ -1,0 +1,28 @@
+{
+  "name": "@bodonkey/apostrophecms-route-lister",
+  "version": "0.1.0",
+  "description": "ApostropheCMS task to list all Express routes (independent of any spec generator)",
+  "author": "BoDonkey (Robert Means)",
+  "type": "module",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": ["apostrophecms", "express", "routes", "api", "openapi", "documentation"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BoDonkey/apostrophecms-route-lister.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BoDonkey/apostrophecms-route-lister/issues"
+  },
+  "homepage": "https://github.com/BoDonkey/apostrophecms-route-lister#readme",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "apostrophe": ">=4.0.0"
+  }
+}
